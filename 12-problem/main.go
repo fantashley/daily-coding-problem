@@ -22,10 +22,14 @@ could climb 1, 3, or 5 steps at a time.
 
 func main() {
 
-	fmt.Println(uniqueClimbs(4))
+	fmt.Println(uniqueClimbs(5, map[int]bool{
+		1: true,
+		3: true,
+		5: true,
+	}))
 }
 
-func uniqueClimbs(stairs int) int {
+func uniqueClimbs(stairs int, steps map[int]bool) int {
 
 	if stairs < 0 {
 		return 0
@@ -35,5 +39,11 @@ func uniqueClimbs(stairs int) int {
 		return 1
 	}
 
-	return uniqueClimbs(stairs-1) + uniqueClimbs(stairs-2)
+	uniqueSum := 0
+
+	for stepCount := range steps {
+		uniqueSum += uniqueClimbs(stairs-stepCount, steps)
+	}
+
+	return uniqueSum
 }
