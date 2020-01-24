@@ -31,19 +31,31 @@ func main() {
 
 func uniqueClimbs(stairs int, steps map[int]bool) int {
 
-	if stairs < 0 {
-		return 0
+	minStep := stairs
+
+	var cache []int
+
+	for step := range steps {
+		if step < minStep {
+			minStep = step
+		}
 	}
 
-	if stairs == 0 {
-		return 1
+	for i := 0; i < minStep-1; i++ {
+		cache = append(cache, 0)
 	}
 
-	uniqueSum := 0
+	cache = append(cache, 1)
 
-	for stepCount := range steps {
-		uniqueSum += uniqueClimbs(stairs-stepCount, steps)
+	for i := minStep; i <= stairs; i++ {
+		stepSum := 0
+		for step := range steps {
+			if i-step >= 0 {
+				stepSum += cache[i-step]
+			}
+		}
+		cache = append(cache, stepSum)
 	}
 
-	return uniqueSum
+	return cache[stairs]
 }
