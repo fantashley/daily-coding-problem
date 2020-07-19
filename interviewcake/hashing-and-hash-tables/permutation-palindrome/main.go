@@ -3,22 +3,18 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(containsPalindrome("civic"))
+	fmt.Println(containsPalindrome("ivicc"))
 }
 
 func containsPalindrome(input string) bool {
-	letterMap := make(map[rune]int)
-	var hasOdd bool
+	letterSet := make(map[rune]struct{})
+	exists := struct{}{}
 	for _, l := range input {
-		letterMap[l]++
-	}
-	for _, count := range letterMap {
-		if (count % 2) == 1 {
-			if hasOdd {
-				return false
-			}
-			hasOdd = true
+		if _, ok := letterSet[l]; ok {
+			delete(letterSet, l)
+		} else {
+			letterSet[l] = exists
 		}
 	}
-	return true
+	return len(letterSet) <= 1
 }
