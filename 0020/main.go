@@ -41,14 +41,11 @@ type Node struct {
 }
 
 func findIntersection(A, B *Node) *Node {
-	lenA := length(A)
-	lenB := length(B)
+	lenA, lenB := length(A), length(B)
 
-	shortList := A
-	longList := B
+	shortList, longList := A, B
 	if lenA > lenB {
-		shortList = B
-		longList = A
+		shortList, longList = B, A
 	}
 
 	for i := 0; i < abs(lenA-lenB); i++ {
@@ -56,8 +53,7 @@ func findIntersection(A, B *Node) *Node {
 	}
 
 	for shortList != longList {
-		shortList = shortList.Next
-		longList = longList.Next
+		shortList, longList = shortList.Next, longList.Next
 	}
 
 	return shortList
